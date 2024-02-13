@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-    <title>Login Page</title>
+    <title>Sign Up Page</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="login-signup.css">
     <script src="global.js"></script>
-    <script src="login.js" defer></script>
+    <script src="sign-up.js" defer></script>
 </head>
 <body>
 <header>
@@ -16,14 +16,14 @@
             <span class="logo-text">Our Blog Platform</span>
         </div>
         <ul id="nav-links">
-            <li><a href="#" id="go-to-sign-up">Sign Up</a></li>
+            <li><a href="#" id="go-to-login">Login</a></li>
         </ul>
     </nav>
 </header>
 
 <div id="login-container">
     <form id="login-form">
-        <h2 id="form-title">Login</h2>
+        <h2 id="form-title">Sign Up</h2>
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" class="login-input" name="username">
@@ -33,8 +33,13 @@
             <input type="password" id="password" class="login-input" name="password">
             <button type="button" class="show-hide-btn">Show</button>
         </div>
+        <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" class="login-input" name="confirm-password">
+            <button type="button" class="show-hide-btn">Show</button>
+        </div>
         <div id="error-log"></div>
-        <button type="submit" id="submit-btn">Login</button>
+        <button type="submit" id="submit-btn">Sign Up</button>
     </form>
 </div>
 </body>
