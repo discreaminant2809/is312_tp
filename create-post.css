@@ -1,0 +1,27 @@
+#create-post {
+    margin: 30px;
+    background-color: var(--secondary-bg-color);
+    padding: 20px;
+}
+
+#create-post-title {
+    margin: 0;
+}
+
+#sep-from-title {
+    margin: 20px 0;
+}
+
+label[for="post-title"] {
+    display: block;
+    margin: 10px 0;
+}
+
+label[for="post-content"] {
+    display: block;
+    margin: 10px 0;
+}
+
+#post-content.ql-container {
+    min-height: 400px;
+}

@@ -1,9 +1,12 @@
 :root {
     --primary-bg-color: #121212;
     --secondary-bg-color: #1c1c1c;
+    --3rd-bg-color: #2a2a2a;
     --accent-color: #4fc3f7;
     --text-color: #ffffff;
     --text-muted: #bcbcbc;
+
+    --divider-color: #bcbcbc;
 }
 
 body {
@@ -81,6 +84,17 @@ header {
     margin-top: 0;
 }
 
+.short-input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background-color: var(--primary-bg-color);
+    color: var(--text-color);
+}
+
 footer {
     text-align: center;
     padding: 20px 0;
@@ -90,4 +104,27 @@ footer {
 
 footer p {
     margin: 0;
+}
+
+hr {
+    border-color: #000000;
+    margin: 0;
+    padding: 0;
+}
+
+.ql-toolbar {
+    background-color: var(--3rd-bg-color);
+    color: var(--accent-color);
+    border-color: var(--secondary-bg-color) !important;
+    border-radius: 10px;
+}
+
+.ql-container {
+    border-color: var(--secondary-bg-color) !important;
+    border-radius: 10px;
+}
+
+.ql-editor {
+    min-height: inherit;
+    border-color: white;
 }
