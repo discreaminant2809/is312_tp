@@ -36,7 +36,7 @@ label {
     border-radius: 4px;
     border: 1px solid #333;
     background-color: var(--primary-bg-color);
-    color: var(--text-color);
+    color: var(--text-color1);
 }
 
 .show-hide-btn {

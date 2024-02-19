@@ -1,4 +1,5 @@
 const toolbarOptions = [
+    [{'font': []}],
     ['bold', 'italic', 'underline', 'strike'],
     ['blockquote', 'code-block'],
     ['link', 'image'],
@@ -10,13 +11,12 @@ const toolbarOptions = [
     [{'direction': 'rtl'}],
 
     [{'size': ['small', false, 'large', 'huge']}],
-    [{'header': [1, 2, 3, 4, 5, 6, false]}],
+    [{'header': [1, 2, 3, false]}],
 
     [{'color': []}, {'background': []}],
-    [{'font': []}],
     [{'align': []}],
 
-    ['clean'] // clear all formats
+    ['clean'] // clear-all-formats button
 ];
 
 const postContentEditor = new Quill('#post-content', {
