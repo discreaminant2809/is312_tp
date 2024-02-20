@@ -25,3 +25,21 @@ label[for="post-content"] {
 #post-content.ql-container {
     min-height: 400px;
 }
+
+#submit-btn {
+    margin-top: 10px;
+    background-color: var(--accent-color);
+    border: var(--accent-color) solid 1px;
+    border-radius: 5px;
+
+    color: var(--primary-bg-color);
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#submit-btn:hover {
+    transition-duration: 0.2s;
+    transition-property: all;
+    color: var(--accent-color);
+    background-color: var(--primary-bg-color);
+}

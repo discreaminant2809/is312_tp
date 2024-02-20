@@ -113,6 +113,12 @@ hr {
     padding: 0;
 }
 
+.prevent-select {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .ql-toolbar {
     background-color: var(--3rd-bg-color);
     color: white !important;
@@ -182,5 +188,18 @@ hr {
 }
 
 .ql-toolbar .ql-picker.ql-expanded .ql-picker-label {
+    color: var(--accent-color) !important;
+}
+
+.ql-picker-options {
+    background-color: var(--3rd-bg-color) !important;
+    border: none !important;
+}
+
+.ql-picker-item {
+    color: var(--text-color1);
+}
+
+.ql-picker-item:hover, .ql-picker-item.ql-selected {
     color: var(--accent-color) !important;
 }

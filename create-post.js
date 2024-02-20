@@ -1,3 +1,7 @@
+"use strict";
+
+const submitBtnElem = document.querySelector(`#submit-btn`);
+
 const toolbarOptions = [
     [{'font': []}],
     ['bold', 'italic', 'underline', 'strike'],
@@ -25,3 +29,7 @@ const postContentEditor = new Quill('#post-content', {
     },
     theme: 'snow'
 });
+
+submitBtnElem.onclick = e => {
+    e.preventDefault();
+};
