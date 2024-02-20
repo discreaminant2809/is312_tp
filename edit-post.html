@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Blog Platform</title>
     <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="create-post.css">
-    <script src="create-post.js" defer></script>
+    <link rel="stylesheet" href="edit-post.css">
+    <script src="edit-post.js" defer></script>
 
     <!-- Use Quill library for rich text editor. You may need to install it -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -32,10 +32,10 @@
 </header>
 
 <main>
-    <section id="create-post">
-        <h2 id="create-post-title">Create Post</h2>
+    <section id="edit-post">
+        <h2 id="edit-post-title">Edit Post</h2>
         <hr id="sep-from-title">
-        <form id="create-post-form">
+        <form id="edit-post-form">
             <div>
                 <label for="post-title">Title</label>
                 <input type="text" id="post-title" class="short-input" name="post-title" maxlength="200">
@@ -44,7 +44,8 @@
                 <label for="post-content">Content</label>
                 <div id="post-content" class="login-input"></div>
             </div>
-            <button type="submit" id="submit-btn" class="prevent-select">Create Post</button>
+            <button type="submit" id="done-btn" class="prevent-select">Done</button>
+            <button type="submit" id="cancel-btn" class="prevent-select">Cancel</button>
         </form>
     </section>
 </main>

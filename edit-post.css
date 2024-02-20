@@ -1,10 +1,10 @@
-#create-post {
+#edit-post {
     margin: 30px;
     background-color: var(--secondary-bg-color);
     padding: 20px;
 }
 
-#create-post-title {
+#edit-post-title {
     margin: 0;
 }
 
@@ -17,20 +17,20 @@ label[for="post-title"] {
     margin: 10px 0;
 }
 
+#post-title {
+    background-color: var(--secondary-bg-color);
+}
+
 label[for="post-content"] {
     display: block;
     margin: 10px 0;
-}
-
-#post-title {
-    background-color: var(--secondary-bg-color);
 }
 
 #post-content.ql-container {
     min-height: 400px;
 }
 
-#submit-btn {
+#done-btn {
     margin-top: 10px;
     background-color: var(--accent-color);
     border: var(--accent-color) solid 1px;
@@ -41,9 +41,27 @@ label[for="post-content"] {
     font-weight: bold;
 }
 
-#submit-btn:hover {
+#done-btn:hover {
     transition-duration: 0.2s;
     transition-property: all;
     color: var(--accent-color);
+    background-color: var(--primary-bg-color);
+}
+
+#cancel-btn {
+    margin-top: 10px;
+    background-color: lightgray;
+    border: lightgray solid 1px;
+    border-radius: 5px;
+
+    color: var(--primary-bg-color);
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#cancel-btn:hover {
+    transition-duration: 0.2s;
+    transition-property: all;
+    color: lightgray;
     background-color: var(--primary-bg-color);
 }
