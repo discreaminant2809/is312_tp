@@ -1,0 +1,78 @@
+main {
+    display: flex;
+    flex-direction: row;
+}
+
+#tabs-section {
+    width: 15%;
+
+    padding: 10px;
+}
+
+#tabs {
+    background-color: var(--secondary-bg-color);
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.tab {
+    text-align: center;
+    margin: 10px;
+    padding: 10px 0;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.tab:hover, .tab.selected {
+    background-color: var(--accent-color);
+    color: var(--primary-bg-color);
+    font-weight: bold;
+    transition-property: background-color, color;
+    transition-duration: 0.2s;
+}
+
+#display {
+    flex-grow: 1;
+    margin: 10px;
+    padding: 10px;
+}
+
+#create-new-post {
+    display: inline-block;
+    width: 100%;
+    color: var(--primary-bg-color);
+    background-color: var(--accent-color);
+    border: var(--accent-color) solid 1px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#create-new-post:hover {
+    transition-duration: 0.2s;
+    transition-property: all;
+    color: var(--accent-color);
+    background-color: var(--primary-bg-color);
+}
+
+#settings {
+    background-color: var(--secondary-bg-color);
+    padding: 20px 20px 10px 20px;
+}
+
+.setting-field {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+}
+
+.setting-field-name {
+    color: var(--accent-color);
+    font-weight: bolder;
+}
+
+#change-pwd:hover {
+    text-decoration: underline;
+}

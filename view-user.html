@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="view-user.css">
+    <script src="view-user.js" defer></script>
+</head>
+<body>
+<header>
+    <nav id="nav-bar">
+        <div id="logo">
+            <span class="logo-text">Our Blog Platform</span>
+        </div>
+        <div id="search-container">
+            <label for="search-bar"></label> <!-- to turn off the warning -->
+            <input id="search-bar" type="text" placeholder="Search blog posts...">
+        </div>
+        <ul id="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Sign Out</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="tabs-section">
+        <nav id="tabs">
+            <p class="tab prevent-select" role="radio">Your Posts</p>
+            <p class="tab prevent-select" role="radio">Drafts</p>
+            <p class="tab prevent-select" role="radio">Settings</p>
+        </nav>
+    </section>
+    <section id="display">
+        <div id="ur-posts">
+            <button id="create-new-post">⊕ Create New Post</button>
+            <!-- Blog post 1 -->
+            <article class="blog-post">
+                <div class="post-header">
+                    <h2 class="post-title">I got married</h2>
+                    <p class="post-date">12-03-2023</p>
+                </div>
+                <p class="post-summary">
+                    This is a summary of the blog post. The first few lines of the post could go
+                    here...
+                </p>
+                <div class="post-options">
+                    <a href="#" class="post-option">Edit</a>
+                </div>
+            </article>
+            <!-- Blog post 2 -->
+            <article class="blog-post">
+                <div class="post-header">
+                    <h2 class="post-title">Halloween!</h2>
+                    <p class="post-date">10-31-2023</p>
+                </div>
+                <p class="post-summary">
+                    This is a summary of the blog post. The first few lines of the post could go
+                    here...
+                </p>
+                <div class="post-options">
+                    <a href="#" class="post-option">Edit</a>
+                </div>
+            </article>
+        </div>
+
+        <div id="drafts">
+            <article class="blog-post">
+                <h2 class="post-title">Halloween!</h2>
+                <p class="post-summary">
+                    This is a summary of the blog post. The first few lines of the post could go
+                    here...
+                </p>
+                <div class="post-options">
+                    <a href="#" class="post-option">Edit</a>
+                </div>
+            </article>
+        </div>
+
+        <div id="settings">
+            <p class="setting-field"><span class="setting-field-name">Username:</span> abc xyz</p>
+            <p id="change-pwd" class="setting-field setting-field-name">Change Password</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; IS312 Team Project</p>
+</footer>
+</body>
+</html>

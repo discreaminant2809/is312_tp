@@ -113,6 +113,42 @@ hr {
     padding: 0;
 }
 
+.blog-post {
+    background-color: var(--secondary-bg-color);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+}
+
+.post-header {
+    display: flex;
+}
+
+.post-title {
+    color: var(--accent-color);
+    margin: 0 10px 0 0;
+}
+
+.post-date {
+    margin: 0 0 0 10px;
+    align-self: center;
+    color: var(--text-muted);
+}
+
+.post-summary {
+    color: var(--text-muted);
+}
+
+.post-option {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.post-option:hover {
+    text-decoration: underline;
+}
+
 .prevent-select {
     -webkit-user-select: none;
     -ms-user-select: none;
