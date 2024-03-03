@@ -32,13 +32,6 @@ label[for="post-content"] {
 
 #done-btn {
     margin-top: 10px;
-    background-color: var(--accent-color);
-    border: var(--accent-color) solid 1px;
-    border-radius: 5px;
-
-    color: var(--primary-bg-color);
-    font-size: x-large;
-    font-weight: bold;
 }
 
 #done-btn:hover {
@@ -50,18 +43,4 @@ label[for="post-content"] {
 
 #cancel-btn {
     margin-top: 10px;
-    background-color: lightgray;
-    border: lightgray solid 1px;
-    border-radius: 5px;
-
-    color: var(--primary-bg-color);
-    font-size: x-large;
-    font-weight: bold;
-}
-
-#cancel-btn:hover {
-    transition-duration: 0.2s;
-    transition-property: all;
-    color: lightgray;
-    background-color: var(--primary-bg-color);
 }

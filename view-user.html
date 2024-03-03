@@ -16,7 +16,7 @@
         </div>
         <div id="search-container">
             <label for="search-bar"></label> <!-- to turn off the warning -->
-            <input id="search-bar" type="text" placeholder="Search blog posts...">
+            <input id="search-bar" class="text-field" type="text" placeholder="Search blog posts...">
         </div>
         <ul id="nav-links">
             <li><a href="#">Home</a></li>
@@ -82,15 +82,16 @@
 
         <div id="settings">
             <p class="setting-field"><span class="setting-field-name">Username:</span> abc xyz</p>
-            <p id="change-pwd-text" class="setting-field setting-field-name">Change Password</p>
-            <form id="change-pwd">
-                <label class="setting-field-name" for="change-pwd-reenter">Reenter old password</label>
-                <input id="change-pwd-reenter" type="password">
-                <br>
-                <label class="setting-field-name" for="change-pwd-new-pwd">Enter new password</label>
-                <input id="change-pwd-new-pwd" type="password">
-                <br>
-                <input class="primary-button" type="submit">
+            <p id="change-pwd-text" class="setting-field setting-field-name prevent-select">Change Password</p>
+            <form id="change-pwd-form" hidden>
+                <fieldset id="change-pwd">
+                    <label class="setting-field-name" for="change-pwd-reenter">Reenter old password: </label>
+                    <input id="change-pwd-reenter" class="change-pwd-field text-field" type="password">
+                    <label class="setting-field-name" for="change-pwd-new-pwd">Enter new password: </label>
+                    <input id="change-pwd-new-pwd" class="change-pwd-field text-field" type="password">
+                    <input id="change-pwd-submit" class="primary-button" type="submit">
+                    <input id="change-pwd-cancel" class="secondary-button" type="submit" value="Cancel">
+                </fieldset>
             </form>
         </div>
     </section>

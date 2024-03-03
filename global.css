@@ -51,6 +51,11 @@ header {
     background-position: right 10px center; /* Position the icon on the right */
 }
 
+.text-field:focus {
+    transition-duration: 0.08s;
+    border: 1px solid var(--accent-color) !important;
+}
+
 .logo-text {
     font-size: 1.5em;
     font-weight: bold;
@@ -255,5 +260,23 @@ hr {
     transition-duration: 0.2s;
     transition-property: all;
     color: var(--accent-color);
+    background-color: var(--primary-bg-color);
+}
+
+.secondary-button {
+    background-color: lightgray;
+    border: lightgray solid 1px;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    color: var(--primary-bg-color);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.secondary-button:hover {
+    transition-duration: 0.2s;
+    transition-property: all;
+    color: lightgray;
     background-color: var(--primary-bg-color);
 }
