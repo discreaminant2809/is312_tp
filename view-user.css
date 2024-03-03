@@ -41,21 +41,7 @@ main {
 #create-new-post {
     display: inline-block;
     width: 100%;
-    color: var(--primary-bg-color);
-    background-color: var(--accent-color);
-    border: var(--accent-color) solid 1px;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 10px;
-    cursor: pointer;
-}
-
-#create-new-post:hover {
-    transition-duration: 0.2s;
-    transition-property: all;
-    color: var(--accent-color);
-    background-color: var(--primary-bg-color);
+    margin-bottom: 20px;
 }
 
 #settings {
@@ -73,6 +59,10 @@ main {
     font-weight: bolder;
 }
 
-#change-pwd:hover {
+#change-pwd-text {
+    cursor: pointer;
+}
+
+#change-pwd-text:hover {
     text-decoration: underline;
 }

@@ -36,7 +36,7 @@
     </section>
     <section id="display">
         <div id="ur-posts">
-            <button id="create-new-post">⊕ Create New Post</button>
+            <button id="create-new-post" class="primary-button">⊕ Create New Post</button>
             <!-- Blog post 1 -->
             <article class="blog-post">
                 <div class="post-header">
@@ -82,7 +82,16 @@
 
         <div id="settings">
             <p class="setting-field"><span class="setting-field-name">Username:</span> abc xyz</p>
-            <p id="change-pwd" class="setting-field setting-field-name">Change Password</p>
+            <p id="change-pwd-text" class="setting-field setting-field-name">Change Password</p>
+            <form id="change-pwd">
+                <label class="setting-field-name" for="change-pwd-reenter">Reenter old password</label>
+                <input id="change-pwd-reenter" type="password">
+                <br>
+                <label class="setting-field-name" for="change-pwd-new-pwd">Enter new password</label>
+                <input id="change-pwd-new-pwd" type="password">
+                <br>
+                <input class="primary-button" type="submit">
+            </form>
         </div>
     </section>
 </main>

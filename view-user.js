@@ -1,4 +1,5 @@
 const tabElems = document.querySelectorAll(`.tab`);
+const changePwdElem = document.querySelector(`#change-pwd-text`);
 
 const SELECTED_CLASS_NAME = `selected`;
 tabElems.forEach((tabElem, _, tabElems) => {
@@ -8,3 +9,4 @@ tabElems.forEach((tabElem, _, tabElems) => {
     };
 });
 tabElems[0].classList.add(SELECTED_CLASS_NAME);
+

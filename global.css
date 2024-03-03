@@ -239,3 +239,21 @@ hr {
 .ql-picker-item:hover, .ql-picker-item.ql-selected {
     color: var(--accent-color) !important;
 }
+
+.primary-button {
+    color: var(--primary-bg-color);
+    background-color: var(--accent-color);
+    border: var(--accent-color) solid 1px;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.primary-button:hover {
+    transition-duration: 0.2s;
+    transition-property: all;
+    color: var(--accent-color);
+    background-color: var(--primary-bg-color);
+}
