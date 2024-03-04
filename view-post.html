@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="view-post.css">
+    <script src="view-post.js" defer></script>
+</head>
+<body>
+<header>
+    <nav id="nav-bar">
+        <div id="logo">
+            <span class="logo-text">Our Blog Platform</span>
+        </div>
+        <div id="search-container">
+            <label for="search-bar"></label> <!-- to turn off the warning -->
+            <input id="search-bar" class="text-field" type="text" placeholder="Search blog posts...">
+        </div>
+        <ul id="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Sign Out</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div id="post-metadata">
+        <h1 id="post-header"></h1>
+        <p class="post-metadata-holder">Author: <span id="post-author" class="post-metadata"></span></p>
+        <p class="post-metadata-holder">Date: <span id="post-date" class="post-metadata"></span></p>
+    </div>
+    <div id="post-content"></div>
+</main>
+</body>
+</html>

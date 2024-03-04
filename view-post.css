@@ -1,0 +1,25 @@
+#post-metadata {
+    width: 70%;
+    margin: auto;
+}
+
+#post-header {
+    text-align: center;
+    color: var(--accent-color);
+}
+
+.post-metadata-holder {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.post-metadata {
+    color: var(--text-color1);
+    font-weight: initial;
+    font-style: italic;
+}
+
+#post-content {
+    width: 80%;
+    margin: auto;
+}
