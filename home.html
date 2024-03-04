@@ -13,10 +13,6 @@
         <div id="logo">
             <span class="logo-text">Our Blog Platform</span>
         </div>
-        <div id="search-container">
-            <label for="search-bar"></label> <!-- to turn off the warning -->
-            <input id="search-bar" class="text-field" type="text" placeholder="Search blog posts...">
-        </div>
         <ul id="nav-links">
             <li><a href="#">User</a></li>
             <li><a href="#">About</a></li>
@@ -27,6 +23,20 @@
 </header>
 
 <main>
+    <div id="search">
+        <div class="search-bar-group">
+            <label for="search-bar-kw"></label> <!-- to turn off the warning -->
+            <input id="search-bar-kw" class="text-field search-bar" type="text" placeholder="Search blog posts...">
+        </div>
+        <div class="search-bar-group">
+            <label for="search-bar-author">Author: </label>
+            <input id="search-bar-author" class="text-field search-bar" type="text" placeholder="author...">
+        </div>
+        <div class="search-bar-group">
+            <label for="search-bar-date">Since: </label>
+            <input id="search-bar-date" class="text-field search-bar" type="date">
+        </div>
+    </div>
     <section class="blog-list">
         <!-- Blog post 1 -->
         <article class="blog-post">

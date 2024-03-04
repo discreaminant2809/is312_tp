@@ -1,3 +1,30 @@
-.blog-list {
+main {
     padding: 20px 10%;
+}
+
+#search {
+    margin: 20px 0;
+}
+
+.search-bar-group {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+#search-bar-kw {
+    padding: 8px 35px 8px 10px; /* Adjusted padding for the icon */
+    background-image: url('assets/magnifying-glass.svg'); /* Path to your icon */
+    background-repeat: no-repeat;
+    background-size: 20px 20px; /* Adjust size as needed */
+    background-position: right 10px center; /* Position the icon on the right */
+}
+
+.search-bar {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background-color: var(--primary-bg-color);
+    color: var(--text-color1);
+    padding: 8px 10px;
 }
