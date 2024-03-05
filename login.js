@@ -5,6 +5,17 @@ const submitBtnElem = document.querySelector("#submit-btn");
 const usernameElem = document.querySelector("#username");
 const passwordElem = document.querySelector("#password");
 const errorLogElem = document.querySelector("#error-log");
+const showHideButton = document.querySelector(`.show-hide-btn`);
+
+showHideButton.onclick = () => {
+    if (passwordElem.type === `password`) {
+        passwordElem.type = `input`;
+        showHideButton.textContent = `Hide`;
+    } else {
+        passwordElem.type = `password`;
+        showHideButton.textContent = `Show`;
+    }
+}
 
 goToSignUpElem.onclick = () => {
     location.href = "sign-up.html";
@@ -33,15 +44,19 @@ function createErrorLogMsgElem(msg) {
 }
 
 async function authenticate(username, pwd) {
-    const res = await fetch(`http://127.0.0.1:3000/api/login`, {
-        method: `POST`,
-        headers: {
-            'Content-Type': `application/json`,
-        },
-        body: JSON.stringify({username, pwd}),
-    });
+    try {
+        const res = await fetch(`http://127.0.0.1:3000/api/login`, {
+            method: `POST`,
+            headers: {
+                'Content-Type': `application/json`,
+            },
+            body: JSON.stringify({username, pwd}),
+        });
 
-    return {failed: !res.ok, msg: await res.text()};
+        return {failed: !res.ok, msg: await res.text()};
+    } catch (e) {
+        return {failed: true, msg: `Something went wrong`};
+    }
 }
 
 function login() {

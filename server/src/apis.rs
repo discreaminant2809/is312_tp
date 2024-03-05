@@ -1,18 +1,21 @@
 use std::sync::Arc;
 
-use axum::{routing::post, Extension, Router};
-use tokio::sync::Mutex;
+use axum::{routing::post, Router};
+use tokio::sync::RwLock;
 
 mod login;
 mod signup;
 
 #[derive(Default, Clone)]
 struct Model {
-    db: Arc<Mutex<crate::db::Db>>,
+    db: Arc<RwLock<crate::db::Db>>,
 }
+
+const AUTH_TOKEN_KEY: &str = "auth-token";
 
 pub fn router() -> Router {
     Router::new()
-        .route("/api/login", post(login::handler))
-        .layer(Extension(Model::default()))
+        .route("/login", post(login::handler))
+        .route("/signup", post(signup::handler))
+        .with_state(Model::default())
 }

@@ -6,12 +6,25 @@ const usernameElem = document.querySelector("#username");
 const passwordElem = document.querySelector("#password");
 const confirmPasswordElem = document.querySelector("#confirm-password");
 const errorLogElem = document.querySelector("#error-log");
+const showHideButtons = document.querySelectorAll(`.show-hide-btn`);
 
-goToLogin.addEventListener("click", () =>{
-    location.href = "login.html";
+[passwordElem, confirmPasswordElem].forEach((elem, i) => {
+    showHideButtons[i].onclick = () => {
+        if (elem.type === `password`) {
+            elem.type = `input`;
+            showHideButtons[i].textContent = `Hide`;
+        } else {
+            elem.type = `password`;
+            showHideButtons[i].textContent = `Show`;
+        }
+    }
 });
 
-submitBtnElem.addEventListener("click", e => {
+goToLogin.onclick = () =>{
+    location.href = "login.html";
+};
+
+submitBtnElem.onclick = async e => {
     e.preventDefault();
 
     errorLogElem.innerHTML = "";
@@ -42,13 +55,15 @@ submitBtnElem.addEventListener("click", e => {
         return;
     }
 
-    if (!register(usernameElem.value, passwordElem.value)) {
-        createErrorLogMsgElem("Failed to sign up: such user already exists");
+    const result = await register(usernameElem.value, passwordElem.value);
+    if (result.failed) {
+        createErrorLogMsgElem(result.msg);
         return;
     }
 
-    alert("Registration successful!");
-});
+    alert(result.msg);
+    goToLogin.onclick();
+};
 
 function createErrorLogMsgElem(msg) {
     const errorLogMsgElem = document.createElement("p");
@@ -57,11 +72,18 @@ function createErrorLogMsgElem(msg) {
     errorLogElem.appendChild(errorLogMsgElem);
 }
 
-function register(username, pwd) {
-    if (users.has(username)) {
-        return false;
-    }
+async function register(username, pwd) {
+    try {
+        const res = await fetch(`http://127.0.0.1:3000/api/signup`, {
+            method: `POST`,
+            headers: {
+                'Content-Type': `application/json`,
+            },
+            body: JSON.stringify({username, pwd}),
+        });
 
-    users.set(username, pwd);
-    return true;
+        return {failed: !res.ok, msg: await res.text()};
+    } catch (e) {
+        return {failed: true, msg: `Something went wrong`};
+    }
 }

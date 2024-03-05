@@ -18,7 +18,7 @@ struct Post {
 }
 
 impl Db {
-    pub async fn auth(&self, username: &str, pwd: &str) -> Result<(), AuthError> {
+    pub async fn auth(&self, username: &str, pwd: &str) -> Result<usize, AuthError> {
         let id = self
             .username_ids
             .get(username)
@@ -26,19 +26,24 @@ impl Db {
             .ok_or(AuthError::UserDne)?;
 
         if pwd == self.id_userdatas[id].pwd {
-            Ok(())
+            Ok(id)
         } else {
             Err(AuthError::WrongPwd)
         }
     }
 
-    pub async fn register(&mut self, username: String, pwd: String) -> bool {
+    pub async fn register(
+        &mut self,
+        username: String,
+        pwd: String,
+    ) -> Result<usize, RegisterError> {
         match self.username_ids.entry(username) {
-            Entry::Occupied(_) => false,
+            Entry::Occupied(_) => Err(RegisterError),
             Entry::Vacant(entry) => {
-                entry.insert(self.id_userdatas.len());
+                let new_id = self.id_userdatas.len();
+                entry.insert(new_id);
                 self.id_userdatas.push(UserData { pwd, post: vec![] });
-                true
+                Ok(new_id)
             }
         }
     }
@@ -46,8 +51,12 @@ impl Db {
 
 #[derive(Debug, thiserror::Error)]
 pub enum AuthError {
-    #[error("Username does not exist")]
+    #[error("user does not exist")]
     UserDne,
-    #[error("Wrong password")]
+    #[error("wrong password")]
     WrongPwd,
 }
+
+#[derive(Debug, thiserror::Error)]
+#[error("user already exists")]
+pub struct RegisterError;
