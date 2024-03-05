@@ -6,22 +6,24 @@ const usernameElem = document.querySelector("#username");
 const passwordElem = document.querySelector("#password");
 const errorLogElem = document.querySelector("#error-log");
 
-goToSignUpElem.addEventListener("click", () => {
+goToSignUpElem.onclick = () => {
     location.href = "sign-up.html";
-});
+};
 
-submitBtnElem.addEventListener("click", e => {
+submitBtnElem.onclick = async e => {
     e.preventDefault();
 
     errorLogElem.innerHTML = "";
 
-    if (!authenticate(usernameElem.value, passwordElem.value)) {
-        createErrorLogMsgElem("Failed to login: wrong username or password");
+    const result = await authenticate(usernameElem.value, passwordElem.value);
+    if (result.failed) {
+        createErrorLogMsgElem(result.msg);
         return;
     }
 
+    alert(result.msg);
     login();
-});
+};
 
 function createErrorLogMsgElem(msg) {
     const errorLogMsgElem = document.createElement("p");
@@ -30,9 +32,16 @@ function createErrorLogMsgElem(msg) {
     errorLogElem.appendChild(errorLogMsgElem);
 }
 
-function authenticate(username, pwd) {
-    const expectedPwd = users.get(username);
-    return expectedPwd !== undefined && pwd === expectedPwd;
+async function authenticate(username, pwd) {
+    const res = await fetch(`http://127.0.0.1:3000/api/login`, {
+        method: `POST`,
+        headers: {
+            'Content-Type': `application/json`,
+        },
+        body: JSON.stringify({username, pwd}),
+    });
+
+    return {failed: !res.ok, msg: await res.text()};
 }
 
 function login() {
