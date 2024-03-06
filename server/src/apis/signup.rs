@@ -10,7 +10,6 @@ pub(super) async fn handler(
 ) -> Result<&'static str, Error> {
     let mut db = model.db.write().await;
     let _ = db.register(payload.username, payload.pwd).await?;
-    drop(db);
 
     Ok("Sign up successfully")
 }

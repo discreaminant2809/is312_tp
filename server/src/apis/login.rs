@@ -1,8 +1,15 @@
+use std::time::Duration;
+
 use axum::{debug_handler, extract::State, http::StatusCode, response::IntoResponse, Json};
 use serde::Deserialize;
-use tower_cookies::{Cookie, Cookies};
+use tower_cookies::{
+    cookie::{time::OffsetDateTime, Expiration, SameSite},
+    Cookie, Cookies,
+};
 
-use super::{Model, AUTH_TOKEN_KEY};
+use crate::session::SESSION_KEY;
+
+use super::Model;
 
 #[debug_handler]
 pub(super) async fn handler(
@@ -12,9 +19,18 @@ pub(super) async fn handler(
 ) -> Result<&'static str, Error> {
     let db = model.db.read().await;
     let id = db.auth(&payload.username, &payload.pwd).await?;
-    drop(db);
 
-    cookies.add(Cookie::new(AUTH_TOKEN_KEY, id.to_string()));
+    cookies.add(
+        Cookie::build((SESSION_KEY, id.to_string()))
+            .expires(Expiration::DateTime(
+                OffsetDateTime::now_utc() + Duration::from_secs(84600 * 30),
+            ))
+            .path("/")
+            .secure(false)
+            .http_only(true)
+            .permanent()
+            .build(),
+    );
 
     Ok("Login successfully")
 }

@@ -74,8 +74,9 @@ function createErrorLogMsgElem(msg) {
 
 async function register(username, pwd) {
     try {
-        const res = await fetch(`http://127.0.0.1:3000/api/signup`, {
+        const res = await fetch(`http://localhost:3000/api/signup`, {
             method: `POST`,
+            mode: 'same-origin',
             headers: {
                 'Content-Type': `application/json`,
             },

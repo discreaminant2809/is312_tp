@@ -12,4 +12,8 @@ serde_json = "1.0.114"
 thiserror = "1.0.57"
 tokio = { version = "1.36.0", features = ["macros", "rt-multi-thread"] }
 tower-cookies = "0.10.0"
-tower-http = { version = "0.5.2", features = ["cors"] }
+tower-http = { version = "0.5.2", features = ["fs"] }
+
+[dev-dependencies]
+anyhow = "1.0.80"
+httpc-test = "0.1.9"
