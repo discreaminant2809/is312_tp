@@ -32,18 +32,6 @@ submitBtnElem.onclick = async e => {
         return;
     }
 
-    // const res = await fetch(`http://127.0.0.1:3000/api/user`, {
-    //     method: `GET`,
-    //     credentials: 'include',
-    //     headers: {
-    //         'Content-Type': `application/json`,
-    //     },
-    // });
-    // if (res.status === 401) {
-    //     alert(`Cookie was not set!`);
-    //     return;
-    // }
-
     login();
 };
 
@@ -55,20 +43,16 @@ function createErrorLogMsgElem(msg) {
 }
 
 async function authenticate(username, pwd) {
-    try {
-        const res = await fetch(`http://localhost:3000/api/login`, {
-            method: `POST`,
-            mode: 'same-origin',
-            headers: {
-                'Content-Type': `application/json`,
-            },
-            body: JSON.stringify({username, pwd}),
-        });
+    const res = await fetch(`http://localhost:3000/api/login`, {
+        method: `POST`,
+        mode: 'same-origin',
+        headers: {
+            'Content-Type': `application/json`,
+        },
+        body: JSON.stringify({username, pwd}),
+    });
 
-        return {failed: !res.ok, msg: await res.text()};
-    } catch (e) {
-        return {failed: true, msg: `Something went wrong`};
-    }
+    return {failed: !res.ok, msg: await res.text()};
 }
 
 function login() {

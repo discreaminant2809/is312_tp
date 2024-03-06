@@ -9,17 +9,14 @@ use axum::{
 };
 use tower_cookies::Cookies;
 
-pub const SESSION_KEY: &str = "session";
+pub mod cookie;
 
+#[derive(Debug, Clone)]
 pub struct Session {
     user_id: usize,
 }
 
 impl Session {
-    // pub fn new(user_id: usize) -> Self {
-    //     Self { user_id }
-    // }
-
     pub fn user_id(&self) -> usize {
         self.user_id
     }
@@ -31,8 +28,7 @@ impl<S: Send + Sync> FromRequestParts<S> for Session {
 
     async fn from_request_parts(parts: &mut Parts, _: &S) -> Result<Self, Self::Rejection> {
         let cookies = parts.extract::<Cookies>().await?;
-        let user_id = cookies
-            .get(SESSION_KEY)
+        let user_id = cookie::get(&cookies)
             .ok_or(FromRequestPartsError::NoSessionCookie)?
             .value()
             .parse()?;
@@ -71,3 +67,19 @@ impl IntoResponse for FromRequestPartsError {
         }
     }
 }
+
+// pub async fn resolve(
+//     cookies: Cookies,
+//     mut req: Request<Body>,
+//     next: Next,
+// ) -> Result<Response, ResolveError> {
+//     let user_id = cookie::get(&cookies)
+//         .ok_or(ResolveError::NoSessionCookie)?
+//         .value()
+//         .parse::<usize>()
+//         .inspect_err(|_| cookie::remove(&cookies))?;
+
+//     req.extensions_mut().insert(Session { user_id });
+
+//     Ok(next.run(req).await)
+// }

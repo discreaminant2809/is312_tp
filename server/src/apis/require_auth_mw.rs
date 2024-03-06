@@ -8,12 +8,11 @@ use axum::{
 
 use crate::session::{self, Session};
 
-pub async fn require_auth(
+pub async fn layer_fn(
     session: Result<Session, session::FromRequestPartsError>,
     req: Request<Body>,
     next: Next,
 ) -> Result<Response, Error> {
-    dbg!(&req);
     session?;
 
     Ok(next.run(req).await)

@@ -73,18 +73,14 @@ function createErrorLogMsgElem(msg) {
 }
 
 async function register(username, pwd) {
-    try {
-        const res = await fetch(`http://localhost:3000/api/signup`, {
-            method: `POST`,
-            mode: 'same-origin',
-            headers: {
-                'Content-Type': `application/json`,
-            },
-            body: JSON.stringify({username, pwd}),
-        });
+    const res = await fetch(`http://localhost:3000/api/signup`, {
+        method: `POST`,
+        mode: 'same-origin',
+        headers: {
+            'Content-Type': `application/json`,
+        },
+        body: JSON.stringify({username, pwd}),
+    });
 
-        return {failed: !res.ok, msg: await res.text()};
-    } catch (e) {
-        return {failed: true, msg: `Something went wrong`};
-    }
+    return {failed: !res.ok, msg: await res.text()};
 }

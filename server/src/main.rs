@@ -7,7 +7,6 @@ use tower_http::services::ServeDir;
 
 mod apis;
 mod db;
-mod mws;
 mod session;
 
 #[tokio::main]

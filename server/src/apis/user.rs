@@ -1,4 +1,4 @@
-use axum::{debug_handler, extract::State, response::IntoResponse};
+use axum::{debug_handler, extract::State, http::StatusCode, response::IntoResponse};
 
 use crate::{apis::Model, session::Session};
 
@@ -17,6 +17,6 @@ pub(super) struct Error;
 
 impl IntoResponse for Error {
     fn into_response(self) -> axum::response::Response {
-        todo!()
+        StatusCode::UNAUTHORIZED.into_response()
     }
 }
