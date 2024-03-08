@@ -30,7 +30,7 @@ label[for="post-content"] {
     min-height: 400px;
 }
 
-#submit-btn {
+#create-post-btn {
     margin-top: 10px;
     background-color: var(--accent-color);
     border: var(--accent-color) solid 1px;
@@ -41,7 +41,7 @@ label[for="post-content"] {
     font-weight: bold;
 }
 
-#submit-btn:hover {
+#create-post-btn:hover {
     transition-duration: 0.2s;
     transition-property: all;
     color: var(--accent-color);

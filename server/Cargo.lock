@@ -1100,6 +1100,7 @@ dependencies = [
  "anyhow",
  "axum",
  "httpc-test",
+ "indexmap",
  "serde",
  "serde_json",
  "thiserror",

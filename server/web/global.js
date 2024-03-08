@@ -4,8 +4,8 @@ const usernameDisplayElem = document.querySelector(`#username-display`);
 const signOutLinkELem = document.querySelector(`#sign-out-link`);
 
 onload = async () => {
-    const res = await fetch(`http://localhost:3000/api/user`, {
-        method: `GET`,
+    const res = await fetch(`./api/user`, {
+        method: `POST`,
         mode: 'same-origin',
         headers: {
             'Content-Type': `application/json`,
@@ -21,8 +21,8 @@ onload = async () => {
 };
 
 signOutLinkELem.onclick = async () => {
-    const res = await fetch(`http://localhost:3000/api/signout`, {
-        method: `GET`,
+    await fetch(`./api/signout`, {
+        method: `POST`,
         mode: 'same-origin',
         headers: {
             'Content-Type': `application/json`,

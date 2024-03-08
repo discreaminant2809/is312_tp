@@ -260,3 +260,21 @@ hr {
     color: lightgray;
     background-color: var(--primary-bg-color);
 }
+
+.delete-button {
+    background-color: red;
+    border: red solid 1px;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.delete-button:hover {
+    transition-duration: 0.2s;
+    transition-property: all;
+    color: red;
+    background-color: var(--primary-bg-color);
+}

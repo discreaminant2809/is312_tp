@@ -1,7 +1,7 @@
 "use strict";
 
 const goToLogin = document.querySelector("#go-to-login");
-const submitBtnElem = document.querySelector("#submit-btn");
+const submitBtnElem = document.querySelector("#create-post-btn");
 const usernameElem = document.querySelector("#username");
 const passwordElem = document.querySelector("#password");
 const confirmPasswordElem = document.querySelector("#confirm-password");
@@ -73,7 +73,7 @@ function createErrorLogMsgElem(msg) {
 }
 
 async function register(username, pwd) {
-    const res = await fetch(`http://localhost:3000/api/signup`, {
+    const res = await fetch(`./api/signup`, {
         method: `POST`,
         mode: 'same-origin',
         headers: {

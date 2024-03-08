@@ -6,6 +6,7 @@
     <title>User</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="view-user.css">
+    <script src="global.js" defer></script>
     <script src="view-user.js" defer></script>
 </head>
 <body>
@@ -14,10 +15,11 @@
         <div id="logo">
             <span class="logo-text">Our Blog Platform</span>
         </div>
+        <p id="username-display"></p>
         <ul id="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Sign Out</a></li>
+            <li><a href="home.html">Home</a></li>
+            <li><a>About</a></li>
+            <li><a id="sign-out-link" href="login.html">Sign Out</a></li>
         </ul>
     </nav>
 </header>
@@ -33,51 +35,51 @@
     <section id="display">
         <div id="ur-posts" class="tab-content" hidden>
             <button id="create-new-post" class="primary-button">⊕ Create New Post</button>
-            <!-- Blog post 1 -->
-            <article class="blog-post">
-                <div class="post-header">
-                    <h2 class="post-title">I got married</h2>
-                    <p class="post-date">12-03-2023</p>
-                </div>
-                <p class="post-summary">
-                    This is a summary of the blog post. The first few lines of the post could go
-                    here...
-                </p>
-                <div class="post-options">
-                    <a href="#" class="post-option">Edit</a>
-                </div>
-            </article>
-            <!-- Blog post 2 -->
-            <article class="blog-post">
-                <div class="post-header">
-                    <h2 class="post-title">Halloween!</h2>
-                    <p class="post-date">10-31-2023</p>
-                </div>
-                <p class="post-summary">
-                    This is a summary of the blog post. The first few lines of the post could go
-                    here...
-                </p>
-                <div class="post-options">
-                    <a href="#" class="post-option">Edit</a>
-                </div>
-            </article>
+            <!--            &lt;!&ndash; Blog post 1 &ndash;&gt;-->
+            <!--            <article class="blog-post">-->
+            <!--                <div class="post-header">-->
+            <!--                    <h2 class="post-title">I got married</h2>-->
+            <!--                    <p class="post-date">12-03-2023</p>-->
+            <!--                </div>-->
+            <!--                <p class="post-summary">-->
+            <!--                    This is a summary of the blog post. The first few lines of the post could go-->
+            <!--                    here...-->
+            <!--                </p>-->
+            <!--                <div class="post-options">-->
+            <!--                    <a href="#" class="post-option">Edit</a>-->
+            <!--                </div>-->
+            <!--            </article>-->
+            <!--            &lt;!&ndash; Blog post 2 &ndash;&gt;-->
+            <!--            <article class="blog-post">-->
+            <!--                <div class="post-header">-->
+            <!--                    <h2 class="post-title">Halloween!</h2>-->
+            <!--                    <p class="post-date">10-31-2023</p>-->
+            <!--                </div>-->
+            <!--                <p class="post-summary">-->
+            <!--                    This is a summary of the blog post. The first few lines of the post could go-->
+            <!--                    here...-->
+            <!--                </p>-->
+            <!--                <div class="post-options">-->
+            <!--                    <a href="#" class="post-option">Edit</a>-->
+            <!--                </div>-->
+            <!--            </article>-->
         </div>
 
         <div id="drafts" class="tab-content" hidden>
-            <article class="blog-post">
-                <h2 class="post-title">Halloween!</h2>
-                <p class="post-summary">
-                    This is a summary of the blog post. The first few lines of the post could go
-                    here...
-                </p>
-                <div class="post-options">
-                    <a href="#" class="post-option">Edit</a>
-                </div>
-            </article>
+            <!--            <article class="blog-post">-->
+            <!--                <h2 class="post-title">Halloween!</h2>-->
+            <!--                <p class="post-summary">-->
+            <!--                    This is a summary of the blog post. The first few lines of the post could go-->
+            <!--                    here...-->
+            <!--                </p>-->
+            <!--                <div class="post-options">-->
+            <!--                    <a href="#" class="post-option">Edit</a>-->
+            <!--                </div>-->
+            <!--            </article>-->
         </div>
 
         <div id="settings" class="tab-content" hidden>
-            <p class="setting-field"><span class="setting-field-name">Username:</span> abc xyz</p>
+<!--            <p class="setting-field"><span class="setting-field-name">UID:</span><span id="uid-display"></span></p>-->
             <p id="change-pwd-text" class="setting-field setting-field-name prevent-select">Change Password</p>
             <form id="change-pwd-form" hidden>
                 <fieldset id="change-pwd">

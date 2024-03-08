@@ -6,7 +6,7 @@ use crate::{apis::Model, session::Session};
 pub(super) async fn handler(State(model): State<Model>, session: Session) -> Result<String, Error> {
     let db = model.db.read().await;
     let id = db
-        .get_username_from_id(session.user_id())
+        .get_username_by_id(session.user_id())
         .await
         .ok_or(Error)?;
 
@@ -15,8 +15,12 @@ pub(super) async fn handler(State(model): State<Model>, session: Session) -> Res
 
 pub(super) struct Error;
 
+impl Error {
+    const MSG: &'static str = "Invalid user id";
+}
+
 impl IntoResponse for Error {
     fn into_response(self) -> axum::response::Response {
-        StatusCode::UNAUTHORIZED.into_response()
+        (StatusCode::UNAUTHORIZED, Error::MSG).into_response()
     }
 }

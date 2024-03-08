@@ -1,6 +1,6 @@
 "use strict";
 
-const submitBtnElem = document.querySelector(`#submit-btn`);
+const createPostBtnElem = document.querySelector(`#create-post-btn`);
 
 const toolbarOptions = [
     [{'font': []}],
@@ -30,6 +30,6 @@ const postContentEditor = new Quill('#post-content', {
     theme: 'snow'
 });
 
-submitBtnElem.onclick = e => {
+createPostBtnElem.onclick = e => {
     e.preventDefault();
 };
