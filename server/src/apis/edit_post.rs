@@ -3,21 +3,75 @@ use axum::{
     extract::{Path, State},
     http::StatusCode,
     response::IntoResponse,
-    routing::post,
+    routing::{self, post},
     Json, Router,
 };
 use serde::Deserialize;
 use serde_json::{json, Value};
 
-use crate::{db::GetPostByIdAndPostIdError, session::Session};
+use crate::{
+    db::{ByIdAndPostIdError, Post},
+    session::Session,
+};
 
 use super::Model;
 
-pub(crate) fn router(state: Model) -> Router<Model> {
+pub(crate) fn router(_state: Model) -> Router<Model> {
     Router::new()
         .route("/requestedit/:post_id", post(request_edit))
         .route("/newpost", post(new_post))
         .route("/savechange/:post_id", post(save_change))
+        .route("/delete/:post_id", routing::delete(delete))
+        .route("/publish", post(publish_new))
+        .route("/publish/:post_id", post(publish))
+}
+
+#[debug_handler]
+async fn delete(
+    State(model): State<Model>,
+    session: Session,
+    Path(post_id): Path<usize>,
+) -> Result<(), Error> {
+    let mut db = model.db.write().await;
+    db.delete_post_by_id_and_post_id(session.user_id(), post_id)
+        .await?;
+    Ok(())
+}
+
+#[debug_handler]
+async fn publish(
+    State(model): State<Model>,
+    session: Session,
+    Path(post_id): Path<usize>,
+) -> Result<(), Error> {
+    let mut db = model.db.write().await;
+    let post = db
+        .get_post_by_id_and_post_id_mut(session.user_id(), post_id)
+        .await?;
+
+    post.publish(current_time());
+    Ok(())
+}
+
+#[debug_handler]
+async fn publish_new(
+    State(model): State<Model>,
+    session: Session,
+    Json(post): Json<PostPayload>,
+) -> Result<(), Error> {
+    let mut db = model.db.write().await;
+    db.new_post_by_id(
+        session.user_id(),
+        Post::Published {
+            title: post.title,
+            date_num: current_time(),
+            content: post.content,
+        },
+    )
+    .await
+    .ok_or(Error::InvalidUserId)?;
+
+    Ok(())
 }
 
 #[debug_handler]
@@ -38,20 +92,24 @@ async fn request_edit(
     })))
 }
 
-// TODO: receive the post also
 #[debug_handler]
-async fn new_post(State(model): State<Model>, session: Session) -> Result<Json<Value>, Error> {
+async fn new_post(
+    State(model): State<Model>,
+    session: Session,
+    Json(post): Json<PostPayload>,
+) -> Result<(), Error> {
     let mut db = model.db.write().await;
-    let (title, content) = db
-        .new_post_by_id(session.user_id())
-        .await
-        .ok_or(Error::InvalidUserId)?
-        .title_content();
+    db.new_post_by_id(
+        session.user_id(),
+        Post::Draft {
+            title: post.title,
+            content: post.content,
+        },
+    )
+    .await
+    .ok_or(Error::InvalidUserId)?;
 
-    Ok(Json(json!({
-        "title": title,
-        "content": content,
-    })))
+    Ok(())
 }
 
 #[debug_handler]
@@ -79,64 +137,16 @@ struct PostPayload {
     content: Value,
 }
 
-// #[debug_handler]
-// pub(crate) async fn handler(
-//     State(model): State<Model>,
-//     session: Session,
-//     Path(kind): Path<Kind>,
-// ) -> Result<Json<Value>, Error> {
-//     match kind {
-//         Kind::RequestEdit { post_id } => {
-//             let db = model.db.read().await;
-//             let (title, content) = db
-//                 .get_post_by_id_and_post_id(session.user_id(), post_id)
-//                 .await?
-//                 .title_content();
-
-//             Ok(Json(json!({
-//                 "title":title,
-//                 "content":content,
-//             })))
-//         }
-//         Kind::SaveChange => {
-//             let mut db = model.db.write().await;
-//             todo!()
-//         }
-//         Kind::NewPost => {
-//             let mut db = model.db.write().await;
-//             let (title, content) = db
-//                 .new_post_by_id(session.user_id())
-//                 .await
-//                 .ok_or(Error::InvalidUserId)?
-//                 .title_content();
-
-//             Ok(Json(json!({
-//                 "title":title,
-//                 "content":content,
-//             })))
-//         }
-//     }
-// }
-
-// #[derive(Deserialize)]
-// #[cfg_attr(test, derive(serde::Serialize))]
-// #[serde(rename_all = "lowercase")]
-// pub(crate) enum Kind {
-//     RequestEdit { post_id: usize },
-//     SaveChange,
-//     NewPost,
-// }
-
 pub(crate) enum Error {
     InvalidUserId,
     InvalidPostId,
 }
 
-impl From<GetPostByIdAndPostIdError> for Error {
-    fn from(e: GetPostByIdAndPostIdError) -> Self {
+impl From<ByIdAndPostIdError> for Error {
+    fn from(e: ByIdAndPostIdError) -> Self {
         match e {
-            GetPostByIdAndPostIdError::NoSuchUserId => Self::InvalidUserId,
-            GetPostByIdAndPostIdError::NoSuchPostId => Self::InvalidPostId,
+            ByIdAndPostIdError::NoSuchUserId => Self::InvalidUserId,
+            ByIdAndPostIdError::NoSuchPostId => Self::InvalidPostId,
         }
     }
 }
@@ -155,6 +165,14 @@ impl IntoResponse for Error {
             Self::InvalidPostId => (StatusCode::BAD_REQUEST, Self::INVALID_POST_ID).into_response(),
         }
     }
+}
+
+fn current_time() -> u128 {
+    use std::time::{SystemTime, UNIX_EPOCH};
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("the server is lag behind the epoch time")
+        .as_millis()
 }
 
 #[cfg(test)]

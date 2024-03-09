@@ -11,7 +11,6 @@ pub(crate) async fn handler(
     session: Session,
 ) -> Result<Json<Value>, Error> {
     let db = model.db.read().await;
-    // dbg!(&session);
 
     db.get_summarized_posts_by_id(session.user_id())
         .await
@@ -31,7 +30,7 @@ pub(crate) async fn handler(
                         "id": post_id,
                         "title": title,
                         "content": content,
-                        "date_num": *date_num,
+                        "dateNum": *date_num,
                     }),
                 })
                 .collect();

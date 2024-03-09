@@ -37,7 +37,7 @@ pub enum Post {
     },
     Published {
         title: String,
-        date_num: i64,
+        date_num: u128,
         content: Value,
     },
 }
@@ -108,15 +108,15 @@ impl Db {
         &self,
         id: usize,
         post_id: usize,
-    ) -> Result<&Post, GetPostByIdAndPostIdError> {
+    ) -> Result<&Post, ByIdAndPostIdError> {
         if !self
             .post_table
             .user_id_ids_map
             .get(&id)
-            .ok_or(GetPostByIdAndPostIdError::NoSuchUserId)?
+            .ok_or(ByIdAndPostIdError::NoSuchUserId)?
             .contains(&post_id)
         {
-            return Err(GetPostByIdAndPostIdError::NoSuchPostId);
+            return Err(ByIdAndPostIdError::NoSuchPostId);
         }
 
         Ok(&self.post_table.id_posts[post_id])
@@ -126,30 +126,45 @@ impl Db {
         &mut self,
         id: usize,
         post_id: usize,
-    ) -> Result<&mut Post, GetPostByIdAndPostIdError> {
+    ) -> Result<&mut Post, ByIdAndPostIdError> {
         if !self
             .post_table
             .user_id_ids_map
             .get(&id)
-            .ok_or(GetPostByIdAndPostIdError::NoSuchUserId)?
+            .ok_or(ByIdAndPostIdError::NoSuchUserId)?
             .contains(&post_id)
         {
-            return Err(GetPostByIdAndPostIdError::NoSuchPostId);
+            return Err(ByIdAndPostIdError::NoSuchPostId);
         }
 
         Ok(&mut self.post_table.id_posts[post_id])
     }
 
-    pub async fn new_post_by_id(&mut self, id: usize) -> Option<&mut Post> {
+    pub async fn new_post_by_id(&mut self, id: usize, post: Post) -> Option<&mut Post> {
         let post_ids = self.post_table.user_id_ids_map.get_mut(&id)?;
 
         let new_post_id = self.post_table.id_posts.len();
-        self.post_table.id_posts.push(Post::Draft {
-            title: "My Post".into(),
-            content: "".into(),
-        });
+        self.post_table.id_posts.push(post);
         post_ids.insert(new_post_id);
         self.post_table.id_posts.last_mut()
+    }
+
+    pub async fn delete_post_by_id_and_post_id(
+        &mut self,
+        id: usize,
+        post_id: usize,
+    ) -> Result<(), ByIdAndPostIdError> {
+        if self
+            .post_table
+            .user_id_ids_map
+            .get_mut(&id)
+            .ok_or(ByIdAndPostIdError::NoSuchUserId)?
+            .shift_remove(&post_id)
+        {
+            Ok(())
+        } else {
+            Err(ByIdAndPostIdError::NoSuchPostId)
+        }
     }
 
     // pub async fn get_summarized_drafts_by_id(&self, id: usize) -> Option<Vec<Draft>> {
@@ -181,7 +196,7 @@ pub enum AuthError {
 pub struct RegisterError;
 
 #[derive(Debug, thiserror::Error)]
-pub enum GetPostByIdAndPostIdError {
+pub enum ByIdAndPostIdError {
     #[error("user does not exist")]
     NoSuchUserId,
     #[error("post does not exist")]
@@ -199,7 +214,7 @@ impl Post {
         (title, content)
     }
 
-    pub fn publish(&mut self, date_num: i64) {
+    pub fn publish(&mut self, date_num: u128) {
         if let Self::Draft { title, content } = self {
             let title = std::mem::take(title);
             let content = std::mem::take(content);

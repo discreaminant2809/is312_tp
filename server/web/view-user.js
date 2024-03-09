@@ -4,7 +4,6 @@ const tabElems = document.querySelectorAll(`.tab`);
 const tabContentElems = document.querySelectorAll(`.tab-content`);
 const urPostsElem = document.querySelector(`#ur-posts`);
 const draftsElem = document.querySelector(`#drafts`);
-const createNewPostElem = document.querySelector(`#create-new-post`);
 const changePwdTextElem = document.querySelector(`#change-pwd-text`);
 const changePwdForm = document.querySelector(`#change-pwd-form`);
 const changePwdReenterElem = document.querySelector(`#change-pwd-reenter`);
@@ -37,7 +36,9 @@ tabElems.forEach((tabElem, i, tabElems) => {
 });
 tabElems[0].classList.add(SELECTED_CLASS_NAME);
 tabContentElems[0].hidden = false;
-getPosts().then(posts => {
+
+addEventListener("DOMContentLoaded", async () => {
+    const posts = await getPosts();
     if (posts === null) {
         urPostsElem.innerHTML += `
             <p class="error-log-msg">Something went wrong. Please log in again</p>
@@ -45,53 +46,58 @@ getPosts().then(posts => {
         return;
     }
 
-    posts.forEach(post => {
-        function deltaToSummary(content) {
-            const MAX_SHOW_LEN = 50;
-            content = content.ops
-                .filter(op => typeof op.insert === 'string') // Keep only insert operations with string content
-                .map(op => op.insert) // Extract the string content
-                .join('');
+    function deltaToSummary(content) {
+        const MAX_SHOW_LEN = 50;
+        content = content.ops
+            .filter(op => typeof op.insert === 'string') // Keep only insert operations with string content
+            .map(op => op.insert) // Extract the string content
+            .join('');
 
-            return content.length > MAX_SHOW_LEN
-                ? `${content.slice(0, 47)}...`
-                : content;
-        }
+        return content.length > MAX_SHOW_LEN
+            ? `${content.slice(0, 47)}...`
+            : content;
+    }
 
-        if (post.dateNum === undefined) {
+    posts
+        .filter(post => post.dateNum === undefined)
+        .forEach(post => {
             draftsElem.innerHTML += `
-                <article class="blog-post" data-id="${post.id}">
+                <article class="blog-post">
                     <h2 class="post-title">${post.title}</h2>
                     <p class="post-summary">
                         ${deltaToSummary(post.content)}
                     </p>
                     <div class="post-options">
-                        <a href="#" class="post-option">Edit</a>
+                        <a href="edit-post.html?kind=draft&postid=${post.id}" class="post-option">Edit</a>
                     </div>
                 </article>
             `;
-        } else {
+        });
+
+    posts
+        .filter(post => post.dateNum !== undefined)
+        .toSorted((post1, post2) => post2.dateNum - post1.dateNum)
+        .forEach(post => {
             urPostsElem.innerHTML += `
-                <article class="blog-post" data-id="${post.id}">
+                <article class="blog-post">
                     <div class="post-header">
                         <h2 class="post-title">${post.title}</h2>
-                        <p class="post-date">${new Date(post.dateNum)}</p>
+                        <p class="post-date">${new Date(post.dateNum).toDateString()}</p>
                     </div>
                     <p class="post-summary">
                         ${deltaToSummary(post.content)}
                     </p>
                     <div class="post-options">
-                        <a href="#" class="post-option">Edit</a>
+                        <a href="edit-post.html?kind=published&postid=${post.id}" class="post-option">Edit</a>
                     </div>
                 </article>
             `;
-        }
-    });
-});
+        });
 
-createNewPostElem.onclick = () => {
-    location.href = `edit-post.html?kind=newpost`;
-}
+    document.querySelector(`#create-new-post`).onclick = () => {
+        location.href = `edit-post.html?kind=new`;
+    };
+});
 
 changePwdTextElem.onclick = () => {
     changePwdForm.hidden = false;

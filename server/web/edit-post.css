@@ -30,17 +30,22 @@ label[for="post-content"] {
     min-height: 400px;
 }
 
-#done-btn {
-    margin-top: 10px;
-}
+/*#done-btn {*/
+/*    margin-top: 10px;*/
+/*}*/
 
-#done-btn:hover {
-    transition-duration: 0.2s;
-    transition-property: all;
-    color: var(--accent-color);
-    background-color: var(--primary-bg-color);
-}
+/*#done-btn:hover {*/
+/*    transition-duration: 0.2s;*/
+/*    transition-property: all;*/
+/*    color: var(--accent-color);*/
+/*    background-color: var(--primary-bg-color);*/
+/*}*/
 
-#cancel-btn {
-    margin-top: 10px;
+/*#cancel-btn {*/
+/*    margin-top: 10px;*/
+/*}*/
+
+#save-notification {
+    color: var(--text-color3);
+    font-style: italic;
 }

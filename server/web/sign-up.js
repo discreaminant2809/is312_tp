@@ -1,7 +1,7 @@
 "use strict";
 
 const goToLogin = document.querySelector("#go-to-login");
-const submitBtnElem = document.querySelector("#create-post-btn");
+const submitBtnElem = document.querySelector("#submit-btn");
 const usernameElem = document.querySelector("#username");
 const passwordElem = document.querySelector("#password");
 const confirmPasswordElem = document.querySelector("#confirm-password");

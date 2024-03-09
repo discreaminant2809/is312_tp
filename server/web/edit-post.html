@@ -20,7 +20,7 @@
             <span class="logo-text">Our Blog Platform</span>
         </div>
         <ul id="nav-links">
-            <li><a href="#">Home</a></li>
+            <li><a href="home.html">Home</a></li>
             <li><a href="#">About</a></li>
         </ul>
     </nav>
@@ -33,17 +33,18 @@
         <form id="edit-post-form">
             <div>
                 <label for="post-title">Title</label>
-                <input type="text" id="post-title" class="short-input" name="post-title" maxlength="200">
+                <input type="text" id="post-title" class="short-input text-field" name="post-title" maxlength="200">
             </div>
             <div>
                 <label for="post-content">Content</label>
                 <div id="post-content" class="login-input"></div>
             </div>
-            <div id="more-buttons"></div>
-            <button type="submit" id="save-btn" class="prevent-select primary-button">Save</button>
-            <button type="submit" id="cancel-btn" class="prevent-select secondary-button">Cancel</button>
-            <button type="submit" id="delete-btn" class="prevent-select delete-button">Delete</button>
+            <div id="submit-buttons"></div>
+<!--            <button type="submit" id="save-btn" class="prevent-select primary-button">Save</button>-->
+<!--            <button type="submit" id="cancel-btn" class="prevent-select secondary-button">Cancel</button>-->
+<!--            <button type="submit" id="delete-btn" class="prevent-select delete-button">Delete</button>-->
             <p id="save-notification"></p>
+            <p id="error-log" class="error-log-msg"></p>
         </form>
     </section>
 </main>
