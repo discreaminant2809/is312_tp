@@ -66,6 +66,7 @@ async fn publish_new(
             title: post.title,
             date_num: current_time(),
             content: post.content,
+            user_id: session.user_id(),
         },
     )
     .await
@@ -104,6 +105,7 @@ async fn new_post(
         Post::Draft {
             title: post.title,
             content: post.content,
+            user_id: session.user_id(),
         },
     )
     .await

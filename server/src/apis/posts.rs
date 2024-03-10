@@ -17,7 +17,7 @@ pub(crate) async fn handler(
         .map(|posts| {
             let post_values = posts
                 .map(|(post_id, post)| match post {
-                    Post::Draft { title, content } => json!({
+                    Post::Draft { title, content, .. } => json!({
                         "id": post_id,
                         "title": title,
                         "content": content
@@ -26,6 +26,7 @@ pub(crate) async fn handler(
                         title,
                         date_num,
                         content,
+                        ..
                     } => json!({
                         "id": post_id,
                         "title": title,

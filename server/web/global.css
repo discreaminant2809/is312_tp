@@ -135,6 +135,11 @@ hr {
     text-decoration: underline;
 }
 
+.post-author {
+    color: var(--text-color2);
+    font-style: italic;
+}
+
 .prevent-select {
     -webkit-user-select: none;
     -ms-user-select: none;

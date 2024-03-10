@@ -28,3 +28,9 @@ main {
     color: var(--text-color1);
     padding: 8px 10px;
 }
+
+#search-bar-submit {
+    display: block;
+    width: 80%;
+    margin: 20px auto 0;
+}

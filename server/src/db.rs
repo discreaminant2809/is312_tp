@@ -32,10 +32,12 @@ struct User {
 #[derive(Debug, Clone)]
 pub enum Post {
     Draft {
+        user_id: usize,
         title: String,
         content: Value,
     },
     Published {
+        user_id: usize,
         title: String,
         date_num: u128,
         content: Value,
@@ -186,6 +188,52 @@ impl Db {
         user.pwd = new_pwd;
         Ok(())
     }
+
+    pub async fn search_post<'a>(
+        &'a self,
+        keyword: &'a str,
+        since: Option<u128>,
+    ) -> impl Iterator<Item = (&str, &Post)> + 'a {
+        self.post_table
+            .user_id_ids_map
+            .values()
+            .flatten()
+            .map(|&post_id| &self.post_table.id_posts[post_id])
+            .flat_map(|post| {
+                self.user_table
+                    .id_users
+                    .get(post.user_id())
+                    .map(|user| (&*user.username, post))
+            })
+            .filter(move |&(_, post)| post.published_and_contains_since(keyword, since))
+    }
+
+    pub async fn search_post_by_author<'a>(
+        &'a self,
+        keyword: &'a str,
+        author: &'a str,
+        since: Option<u128>,
+    ) -> impl Iterator<Item = &Post> + 'a {
+        self.search_post_by_author_impl(keyword, author, since)
+            .into_iter()
+            .flatten()
+    }
+
+    fn search_post_by_author_impl<'a>(
+        &'a self,
+        keyword: &'a str,
+        author: &'a str,
+        since: Option<u128>,
+    ) -> Option<impl Iterator<Item = &Post> + 'a> {
+        let id = self.user_table.username_id_map.get(author)?;
+        Some(
+            self.post_table.user_id_ids_map[id]
+                .iter()
+                .copied()
+                .map(|post_id| &self.post_table.id_posts[post_id])
+                .filter(move |&post| post.published_and_contains_since(keyword, since)),
+        )
+    }
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -217,25 +265,81 @@ pub enum ChangePwdByIdError {
 }
 
 impl Post {
+    pub fn user_id(&self) -> usize {
+        let (Self::Draft { user_id, .. } | Self::Published { user_id, .. }) = self;
+        *user_id
+    }
+
     pub fn title_content(&self) -> (&str, &Value) {
-        let (Self::Draft { title, content } | Self::Published { title, content, .. }) = self;
+        let (Self::Draft { title, content, .. } | Self::Published { title, content, .. }) = self;
         (title, content)
     }
 
     pub fn title_content_mut(&mut self) -> (&mut String, &mut Value) {
-        let (Self::Draft { title, content } | Self::Published { title, content, .. }) = self;
+        let (Self::Draft { title, content, .. } | Self::Published { title, content, .. }) = self;
         (title, content)
     }
 
     pub fn publish(&mut self, date_num: u128) {
-        if let Self::Draft { title, content } = self {
+        if let Self::Draft {
+            title,
+            content,
+            user_id,
+        } = self
+        {
             let title = std::mem::take(title);
             let content = std::mem::take(content);
             *self = Self::Published {
                 title,
                 date_num,
                 content,
+                user_id: *user_id,
             }
         }
+    }
+
+    fn published_and_contains_since(&self, needle: &str, since: Option<u128>) -> bool {
+        fn content_to_iter(content: &Value) -> Option<impl IntoIterator<Item = &str>> {
+            let Value::Object(content) = content else {
+                return None;
+            };
+
+            let content = content.get("ops")?;
+
+            let Value::Array(content) = content else {
+                return None;
+            };
+
+            Some(content.iter().filter_map(|piece| {
+                let Value::Object(piece) = piece else {
+                    return None;
+                };
+                let piece = piece.get("insert")?;
+                let Value::String(piece) = piece else {
+                    return None;
+                };
+                Some(&piece[..])
+            }))
+        }
+
+        let Self::Published {
+            title,
+            date_num,
+            content,
+            ..
+        } = self
+        else {
+            return false;
+        };
+
+        if matches!(since, Some(since) if since > *date_num) {
+            return false;
+        }
+
+        content_to_iter(content)
+            .into_iter()
+            .flatten()
+            .chain([&title[..]])
+            .any(|string| string.contains(needle))
     }
 }

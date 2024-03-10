@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use axum::{
-    routing::{post, put},
+    routing::{get, post, put},
     Router,
 };
 use tokio::sync::RwLock;
@@ -10,6 +10,7 @@ mod change_pwd;
 mod edit_post;
 mod login;
 mod posts;
+mod search_post;
 mod signout;
 mod signup;
 mod user;
@@ -23,6 +24,7 @@ pub fn router() -> Router {
     let model = Model::default();
     Router::new()
         .nest("/editpost", edit_post::router(model.clone()))
+        .route("/searchpost", get(search_post::handler))
         .route("/changepwd", put(change_pwd::handler))
         .route("/posts", post(posts::handler))
         .route("/user", post(user::handler))

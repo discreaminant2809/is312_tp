@@ -56,7 +56,7 @@ postContentEditor.on(`text-change`, () => {
 function addButtons(kind) {
     function createButton(name, type, listener) {
         const buttonElem = document.createElement(`button`);
-        buttonElem.classList.add(`prevent-select`, type);
+        buttonElem.classList.add(`prevent-select`, `submit-button`, type);
         buttonElem.type = `submit`;
         buttonElem.textContent = name;
         buttonElem.onclick = e => {
@@ -69,6 +69,11 @@ function addButtons(kind) {
     const submitButtonsElem = document.querySelector(`#submit-buttons`);
 
     async function publishNew() {
+        if (!postTitleElem.value.trim()) {
+            errorLogElem.textContent = `Post's title must NOT be empty`;
+            return;
+        }
+
         const post = {
             title: postTitleElem.value,
             content: postContentEditor.getContents(),
@@ -91,6 +96,11 @@ function addButtons(kind) {
     }
 
     async function publish() {
+        if (!postTitleElem.value.trim()) {
+            errorLogElem.textContent = `Post's title must NOT be empty`;
+            return;
+        }
+
         const res = await fetch(`./api/editpost/publish/${handler.postId}`, {
             method: `POST`,
             mode: 'same-origin',

@@ -30,20 +30,13 @@ label[for="post-content"] {
     min-height: 400px;
 }
 
-/*#done-btn {*/
-/*    margin-top: 10px;*/
-/*}*/
+#submit-buttons {
+    margin: 10px 5px;
+}
 
-/*#done-btn:hover {*/
-/*    transition-duration: 0.2s;*/
-/*    transition-property: all;*/
-/*    color: var(--accent-color);*/
-/*    background-color: var(--primary-bg-color);*/
-/*}*/
-
-/*#cancel-btn {*/
-/*    margin-top: 10px;*/
-/*}*/
+.submit-button {
+    margin: 0 5px;
+}
 
 #save-notification {
     color: var(--text-color3);

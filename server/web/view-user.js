@@ -46,18 +46,6 @@ addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    function deltaToSummary(content) {
-        const MAX_SHOW_LEN = 50;
-        content = content.ops
-            .filter(op => typeof op.insert === 'string') // Keep only insert operations with string content
-            .map(op => op.insert) // Extract the string content
-            .join('');
-
-        return content.length > MAX_SHOW_LEN
-            ? `${content.slice(0, 47)}...`
-            : content;
-    }
-
     posts
         .filter(post => post.dateNum === undefined)
         .forEach(post => {
