@@ -5,8 +5,11 @@
     <title>Post</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="view-post.css">
-    <script src="view-post.js" defer></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="global.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/quill-delta-to-html@0.12.1/dist/browser/QuillDeltaToHtmlConverter.bundle.min.js"></script>
+    <script src="view-post.js" defer></script>
 </head>
 <body>
 <header>
@@ -14,10 +17,11 @@
         <div id="logo">
             <span class="logo-text">Our Blog Platform</span>
         </div>
+        <p id="username-display"></p>
         <ul id="nav-links">
-            <li><a href="#">Home</a></li>
+            <li><a href="home.html">Home</a></li>
             <li><a href="#">About</a></li>
-            <li><a href="#">Sign Out</a></li>
+            <li><a id="sign-out-link" href="#">Sign Out</a></li>
         </ul>
     </nav>
 </header>

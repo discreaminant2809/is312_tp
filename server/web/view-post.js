@@ -1,31 +1,41 @@
 "use strict"
 
-const postHHeaderElem = document.querySelector(`#post-header`);
+const postHeaderElem = document.querySelector(`#post-header`);
 const postAuthorElem = document.querySelector(`#post-author`);
 const postDateElem = document.querySelector(`#post-date`);
 const postContentElem = document.querySelector(`#post-content`);
 
-onload = async () => {
-    const post = await loadPost();
-    postHHeaderElem.textContent = post.header;
+addEventListener("DOMContentLoaded", async () => {
+    const postId = Number(new URL(location.href).searchParams.get("postid"));
+    if (Number.isNaN(postId)) {
+        alert(`Invalid parameters! Post cannot be loaded`);
+        return;
+    }
+
+    const res = await fetch(`./api/viewpost?postid=${postId}`, {
+        method: `GET`,
+        mode: 'same-origin',
+        headers: {
+            'Content-Type': `application/json`,
+        },
+    });
+
+    if (!res.ok) {
+        alert(`No such post! Post cannot be loaded`);
+        return;
+    }
+
+    const post = await res.json();
+
+    postHeaderElem.textContent = post.title;
     postAuthorElem.textContent = post.author;
-    postDateElem.textContent = post.date.toDateString();
-    postContentElem.innerHTML = post.content;
-};
-
-async function loadPost() {
-    return testPost;
-}
-
-const testPost = {
-    header: `Lorem Ipsum`,
-    author: `Jackson`,
-    date: new Date(2024, 11, 24),
-    content: `
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-            magna aliqua. Ullamcorper a lacus vestibulum sed. Scelerisque eleifend donec pretium vulputate sapien. Eu
-            lobortis elementum nibh tellus molestie. Quis varius quam quisque id diam. Aliquam sem et tortor consequat
-            id porta nibh venenatis cras.</p>
-        <p>Ut ornare lectus sit amet est. Ligula ullamcorper malesuada proin libero nunc.</p>
-    `
-};
+    postDateElem.textContent = new Date(post.dateNum).toDateString();
+    const postContent = new Quill(postContentElem, {
+        modules: {
+            toolbar: false,
+        },
+        readOnly: true,
+        theme: `snow`,
+    });
+    postContent.setContents(post.content);
+});

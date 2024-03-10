@@ -23,7 +23,7 @@ pub(crate) async fn handler(
             params.since.map(|since| since as _),
         )
         .await
-        .map(|post| published_post_to_value(post, &params.author))
+        .map(|(post_id, post)| published_post_to_value(post_id, post, &params.author))
         .collect()
     } else {
         if params.keyword.is_empty() {
@@ -32,7 +32,7 @@ pub(crate) async fn handler(
 
         db.search_post(&params.keyword, params.since.map(|since| since as _))
             .await
-            .map(|(author, post)| published_post_to_value(post, author))
+            .map(|(post_id, author, post)| published_post_to_value(post_id, post, author))
             .collect()
     };
 
@@ -46,7 +46,7 @@ pub(crate) struct Params {
     since: Option<u64>,
 }
 
-fn published_post_to_value(post: &Post, author: &str) -> Value {
+fn published_post_to_value(post_id: usize, post: &Post, author: &str) -> Value {
     let Post::Published {
         title,
         date_num,
@@ -58,6 +58,7 @@ fn published_post_to_value(post: &Post, author: &str) -> Value {
     };
 
     json!({
+        "postId": post_id,
         "title": title,
         "author": author,
         "dateNum": date_num,

@@ -14,6 +14,7 @@ mod search_post;
 mod signout;
 mod signup;
 mod user;
+mod view_post;
 
 #[derive(Default, Clone)]
 struct Model {
@@ -25,6 +26,7 @@ pub fn router() -> Router {
     Router::new()
         .nest("/editpost", edit_post::router(model.clone()))
         .route("/searchpost", get(search_post::handler))
+        .route("/viewpost", get(view_post::handler))
         .route("/changepwd", put(change_pwd::handler))
         .route("/posts", post(posts::handler))
         .route("/user", post(user::handler))

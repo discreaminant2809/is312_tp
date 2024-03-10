@@ -193,19 +193,19 @@ impl Db {
         &'a self,
         keyword: &'a str,
         since: Option<u128>,
-    ) -> impl Iterator<Item = (&str, &Post)> + 'a {
+    ) -> impl Iterator<Item = (usize, &str, &Post)> + 'a {
         self.post_table
             .user_id_ids_map
             .values()
             .flatten()
-            .map(|&post_id| &self.post_table.id_posts[post_id])
-            .flat_map(|post| {
+            .map(|&post_id| (post_id, &self.post_table.id_posts[post_id]))
+            .flat_map(|(post_id, post)| {
                 self.user_table
                     .id_users
                     .get(post.user_id())
-                    .map(|user| (&*user.username, post))
+                    .map(|user| (post_id, &*user.username, post))
             })
-            .filter(move |&(_, post)| post.published_and_contains_since(keyword, since))
+            .filter(move |&(_, _, post)| post.published_and_contains_since(keyword, since))
     }
 
     pub async fn search_post_by_author<'a>(
@@ -213,7 +213,7 @@ impl Db {
         keyword: &'a str,
         author: &'a str,
         since: Option<u128>,
-    ) -> impl Iterator<Item = &Post> + 'a {
+    ) -> impl Iterator<Item = (usize, &Post)> + 'a {
         self.search_post_by_author_impl(keyword, author, since)
             .into_iter()
             .flatten()
@@ -224,15 +224,21 @@ impl Db {
         keyword: &'a str,
         author: &'a str,
         since: Option<u128>,
-    ) -> Option<impl Iterator<Item = &Post> + 'a> {
+    ) -> Option<impl Iterator<Item = (usize, &Post)> + 'a> {
         let id = self.user_table.username_id_map.get(author)?;
         Some(
             self.post_table.user_id_ids_map[id]
                 .iter()
                 .copied()
-                .map(|post_id| &self.post_table.id_posts[post_id])
-                .filter(move |&post| post.published_and_contains_since(keyword, since)),
+                .map(|post_id| (post_id, &self.post_table.id_posts[post_id]))
+                .filter(move |&(_, post)| post.published_and_contains_since(keyword, since)),
         )
+    }
+
+    pub async fn get_post_by_id(&self, post_id: usize) -> Option<(&str, &Post)> {
+        let post = self.post_table.id_posts.get(post_id)?;
+        self.post_table.user_id_ids_map.get(&post.user_id())?;
+        Some((&self.user_table.id_users[post.user_id()].username, post))
     }
 }
 

@@ -1,3 +1,5 @@
+"use strict";
+
 const blogListElem = document.querySelector(`#blog-list`);
 const searchBarKwElem = document.querySelector(`#search-bar-kw`);
 const searchBarAuthorElem = document.querySelector(`#search-bar-author`);
@@ -66,6 +68,14 @@ searchBarSubmitElem.onclick = async () => {
             postSummaryElem.classList.add(`post-summary`);
             postSummaryElem.textContent = deltaToSummary(post.content);
             articleElem.appendChild(postSummaryElem);
+        }
+        {
+            //<a href="view-post.html" class="post-option">Read More</a>
+            const viewPostElem = document.createElement(`a`);
+            viewPostElem.classList.add(`post-option`);
+            viewPostElem.textContent = `Read More`;
+            viewPostElem.href = `view-post.html?postid=${post.postId}`;
+            articleElem.appendChild(viewPostElem);
         }
         blogListElem.appendChild(articleElem);
     });

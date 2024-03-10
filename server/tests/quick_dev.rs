@@ -30,3 +30,15 @@ async fn api_signup_login() -> anyhow::Result<()> {
 
     Ok(())
 }
+
+#[tokio::test]
+async fn api_get_post_by_id() -> anyhow::Result<()> {
+    let client = httpc_test::new_client("http://localhost:3000")?;
+    client
+        .do_get("/api/viewpost?postid=0")
+        .await?
+        .print()
+        .await?;
+
+    Ok(())
+}
