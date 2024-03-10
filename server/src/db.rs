@@ -167,20 +167,25 @@ impl Db {
         }
     }
 
-    // pub async fn get_summarized_drafts_by_id(&self, id: usize) -> Option<Vec<Draft>> {
-    //     let userdata = self.user_table.id_users.get(id)?;
-    //     let mut drafts = userdata.drafts.clone();
-    //     for drafts in &mut drafts {
-    //         if drafts.content.len() > Self::MAX_SUMMARIZED_LEN {
-    //             drafts
-    //                 .content
-    //                 .truncate(Self::MAX_SUMMARIZED_LEN - Self::TO_BE_CONTINUED.len());
-    //             drafts.content.push_str(Self::TO_BE_CONTINUED);
-    //         }
-    //     }
+    pub async fn change_pwd_by_id(
+        &mut self,
+        id: usize,
+        reenter_pwd: &str,
+        new_pwd: String,
+    ) -> Result<(), ChangePwdByIdError> {
+        let user = self
+            .user_table
+            .id_users
+            .get_mut(id)
+            .ok_or(ChangePwdByIdError::NoSuchUserId)?;
 
-    //     Some(drafts)
-    // }
+        if user.pwd != reenter_pwd {
+            return Err(ChangePwdByIdError::MismatchPwd);
+        }
+
+        user.pwd = new_pwd;
+        Ok(())
+    }
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -201,6 +206,14 @@ pub enum ByIdAndPostIdError {
     NoSuchUserId,
     #[error("post does not exist")]
     NoSuchPostId,
+}
+
+#[derive(Debug, thiserror::Error)]
+pub enum ChangePwdByIdError {
+    #[error("user does not exist")]
+    NoSuchUserId,
+    #[error("reenter password does not match with the old password")]
+    MismatchPwd,
 }
 
 impl Post {

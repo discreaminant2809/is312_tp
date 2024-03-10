@@ -111,3 +111,26 @@ changePwdCancelElem.onclick = e => {
     changePwdNewPwd.value = ``;
 };
 
+changePwdForm.onsubmit = async e => {
+    e.preventDefault();
+
+    const res = await fetch(`./api/changepwd`, {
+        method: `PUT`,
+        mode: 'same-origin',
+        headers: {
+            'Content-Type': `application/json`,
+        },
+        body: JSON.stringify({
+            reenter_pwd: changePwdReenterElem.value,
+            new_pwd: changePwdNewPwd.value,
+        })
+    });
+
+    if (!res.ok) {
+        alert("Failed to change password");
+        return;
+    }
+
+    alert("Password successfully changed!");
+    location.href = `login.html`;
+};
