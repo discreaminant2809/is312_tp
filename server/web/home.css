@@ -34,3 +34,12 @@ main {
     width: 80%;
     margin: 20px auto 0;
 }
+
+#clear-date-btn {
+    font-size: small;
+    padding: auto;
+}
+
+#search-bar-date::-webkit-calendar-picker-indicator {
+    background-color: var(--accent-color);
+}

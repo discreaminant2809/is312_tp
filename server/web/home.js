@@ -5,6 +5,7 @@ const searchBarKwElem = document.querySelector(`#search-bar-kw`);
 const searchBarAuthorElem = document.querySelector(`#search-bar-author`);
 const searchBarDateElem = document.querySelector(`#search-bar-date`);
 const searchBarSubmitElem = document.querySelector(`#search-bar-submit`);
+const clearDateBtnElem = document.querySelector(`#clear-date-btn`);
 
 searchBarSubmitElem.onclick = async () => {
     blogListElem.innerHTML = ``;
@@ -20,6 +21,7 @@ searchBarSubmitElem.onclick = async () => {
     if (searchBarDateElem.value) {
         query.push(`since=${new Date(searchBarDateElem.value).getTime()}`);
     }
+    
     // debugger
     const res = await fetch(
         `./api/searchpost?${query.join(`&`)}`,
@@ -86,3 +88,7 @@ onkeydown = async e => {
         await searchBarSubmitElem.onclick();
     }
 }
+
+clearDateBtnElem.onclick = () => {
+    searchBarDateElem.value = ``;
+};
